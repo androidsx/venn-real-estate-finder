@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Real state search</title>
+    <link href="bootstrap.css" rel="stylesheet">
+   
+       <!--[if lt IE 9]>
+       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+       <![endif]-->
+    
+</head>
+
+<body>
+
+    <div class="container">
+    	<div class="row clearfix">
+    		<div class="col-md-12 column">
+    			<div class="jumbotron">
+    				<h1>
+    					Real state search.
+    				</h1>
+    				<h1>
+    					Redefined.
+    				</h1>
+    				<p>
+    					Decide on your next home based on your top priorities. Forget about thousands of open listing tabs.
+    				</p>
+				
+    				<p>
+    					<a class="btn btn-primary btn-large" href="#">Learn more</a>
+    				</p>
+    			</div>
+    		</div>
+    	</div>
+        
+        <h4>Try it</h4>
+        <hr>
+    	<div class="row clearfix">
+    		<div class="col-md-3 column">
+
+             
+                    <h6 class="filter-label col-3">Size</h6>
+
+                    <form class="form-horizontal">
+
+                      <div class="select input-medium">
+                        <select name="min_bedrooms">
+                          <option value="-1">Bedrooms</option>
+                          <option value="1">1 Bedroom</option>
+                <option value="2">2 Bedrooms</option>
+                <option value="3">3 Bedrooms</option>
+                <option value="4">4 Bedrooms</option>
+                <option value="5">5 Bedrooms</option>
+                <option value="6">6 Bedrooms</option>
+                <option value="7">7 Bedrooms</option>
+                <option value="8">8 Bedrooms</option>
+                <option value="9">9 Bedrooms</option>
+                <option value="10">10 Bedrooms</option>
+                        </select>
+                      </div>
+
+                      <div class="select input-medium">
+                        <select name="min_bathrooms" class="input-medium">
+                          <option value="-1">Bathrooms</option>
+                          <option value="0.0">0 Bathrooms</option>
+                <option value="0.5">0.5 Bathrooms</option>
+                <option value="1.0">1 Bathroom</option>
+                <option value="1.5">1.5 Bathrooms</option>
+                <option value="2.0">2 Bathrooms</option>
+                <option value="2.5">2.5 Bathrooms</option>
+                <option value="3.0">3 Bathrooms</option>
+                <option value="3.5">3.5 Bathrooms</option>
+                <option value="4.0">4 Bathrooms</option>
+                <option value="4.5">4.5 Bathrooms</option>
+                <option value="5.0">5 Bathrooms</option>
+                <option value="5.5">5.5 Bathrooms</option>
+                <option value="6.0">6 Bathrooms</option>
+                <option value="6.5">6.5 Bathrooms</option>
+                <option value="7.0">7 Bathrooms</option>
+                <option value="7.5">7.5 Bathrooms</option>
+                <option value="8">8+ Bathrooms</option>
+                        </select>
+                      </div>
+
+                      <div class="select input-medium">
+                        <select name="min_beds" class="input-medium">
+                          <option value="-1">Beds</option>
+                          <option value="1">1 Bed</option>
+                <option value="2">2 Beds</option>
+                <option value="3">3 Beds</option>
+                <option value="4">4 Beds</option>
+                <option value="5">5 Beds</option>
+                <option value="6">6 Beds</option>
+                <option value="7">7 Beds</option>
+                <option value="8">8 Beds</option>
+                <option value="9">9 Beds</option>
+                <option value="10">10 Beds</option>
+                <option value="11">11 Beds</option>
+                <option value="12">12 Beds</option>
+                <option value="13">13 Beds</option>
+                <option value="14">14 Beds</option>
+                <option value="15">15 Beds</option>
+                <option value="16">16+ Beds</option>
+                        </select>
+                      </div>
+
+                    </form>
+
+               
+                
+    		</div>
+    		<div class="col-md-9 column">
+                
+                <div style="float:left;padding:20px;display:none">
+                    <table>
+                    <tr>
+                      <td>|A|</td>
+                      <td>
+                        <input class="input-mini venn_set" id="a" type="number" value="16">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>|B|</td>
+                      <td>
+                        <input class="input-mini venn_set" id="b" type="number" value="16">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>|C|</td>
+                      <td>
+                        <input class="input-mini venn_set" id="c" type="number" value="12">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>|A&#8745B|</td>
+                      <td>
+                        <input class="input-mini venn_area" id="0,1" type="number" value="4">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>|A&#8745C|</td>
+                      <td>
+                        <input class="input-mini venn_area" id="0,2" type="number" value="4">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>|B&#8745C|</td>
+                      <td>
+                        <input class="input-mini venn_area" id="1,2" type="number" value="3">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>|A&#8745CB&#8745C|&nbsp</td>
+                      <td>
+                        <input class="input-mini venn_area" id="0,1,2" type="number" value="2">
+                      </td>
+                    </tr>
+                    </table>
+                </div>
+                <div class="dynamic"></div>
+    		</div>
+    	</div>
+    </div>
+    
+</body>
+
+<script src="http://d3js.org/d3.v2.min.js"></script>
+<script src="../../venn.js/venn.js"></script>
+<script>
+function getSetIntersections() {
+    areas = d3.selectAll(".venn_area")[0].map(
+        function (element) { 
+            return { sets: element.id.split(",").map(function(value) { return parseInt(value);}), 
+                    size: parseFloat(element.value)};} );
+    return areas;
+}
+
+function getSets() {
+    var sets=[{"label": "A"}, {"label":"B"}, {"label": "C"}], areas = [];
+    d3.selectAll(".venn_set")[0].map(
+        function(element, i) { sets[i].size = parseFloat(element.value); });
+    return sets;
+}
+
+var w = Math.min(450, document.documentElement.clientWidth-30), h = 2*w/3;
+
+// draw the initial set
+var sets = venn.venn(getSets(), getSetIntersections());
+venn.drawD3Diagram(d3.select(".dynamic"), sets, w, h);
+
+// redraw the sets on any change in input
+d3.selectAll("input").on("change", function() {
+    var sets = venn.venn(getSets(), getSetIntersections());
+    venn.updateD3Diagram(d3.select(".dynamic"), sets);
+});
+</script>
+</html>
