@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Dynamic venn.js example</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+   
+    <link rel="alternate" type="application/rss+xml" href="/atom.xml" title="RSS feed">
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="container">
+<h2>Real state search</h2>
+
+<div style="float:left;padding:20px;padding-right: 100px">
+    <h4>Number of listings in each intersection</h4>
+    <div>
+        <button type="button" class="btn btn-default" id="gdocs">
+            Redraw from Google Docs
+        </button>
+    </div>
+    
+    <table style="margin-top:15px">
+    <tr>
+      <td>|Price|</td>
+      <td>
+        <input class="input-mini venn_set" id="a" type="number" value="16">
+      </td>
+    </tr>
+    <tr>
+      <td>|Size|</td>
+      <td>
+        <input class="input-mini venn_set" id="b" type="number" value="16">
+      </td>
+    </tr>
+    <tr>
+      <td>|Location|</td>
+      <td>
+        <input class="input-mini venn_set" id="c" type="number" value="12">
+      </td>
+    </tr>
+    <tr>
+      <td>|Price&#8745Size|</td>
+      <td>
+        <input class="input-mini venn_area ab" id="0,1" type="number" value="4">
+      </td>
+    </tr>
+    <tr>
+      <td>|Price&#8745Location|</td>
+      <td>
+        <input class="input-mini venn_area ac" id="0,2" type="number" value="4">
+      </td>
+    </tr>
+    <tr>
+      <td>|Size&#8745Location|</td>
+      <td>
+        <input class="input-mini venn_area bc" id="1,2" type="number" value="3">
+      </td>
+    </tr>
+    <tr>
+      <td>|Price&#8745Size&#8745Location|&nbsp</td>
+      <td>
+        <input class="input-mini venn_area abc" id="0,1,2" type="number" value="2">
+      </td>
+    </tr>
+    </table>
+</div>
+<div class="dynamic"></div>
+
+<hr>
+    <div class="btn-group exact-control">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="circlelabel">3 Circles</span> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a class="circle1">1 Circles</a></li>
+                <li><a class="circle2">2 Circles</a></li>
+                <li><a class="circle3">3 Circles</a></li>
+                <li><a class="circle4">4 Circles</a></li>
+                <li><a class="circle5">5 Circles</a></li>
+                <li><a class="circle6">6 Circles</a></li>
+                <li><a class="circle7">7 Circles</a></li>
+                <li><a class="circle8">8 Circles</a></li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-default layout-grid" disabled="true">
+            Grid
+        </button>
+        <button type="button" class="btn btn-default layout-random">
+            Randomize
+        </button>
+    </div>
+    <div class="row" style="padding: 80px">
+        <div class="exact col-md-4"></div>
+        <div class="exact-output col-sm-4"
+             style="margin:16px;fnt-family:Courier;font-size:12px;">
+            <table>
+                <tr><td>Area: </td><td><span class="area">0</span></td></tr>
+                <tr><td>Polygon Area: </td><td><span class="area-polygon">0</span></td></tr>
+                <tr><td>Arc Area: </td><td><span class="area-arc">0</span></td></tr>
+            </table>
+
+            <div><span class="qarea" style="display:none">0</span></div>
+        </div>
+    </div>
+
+
+<div style="clear: both;"></div>
+
+</div>
+
+</body>
+<script src="../venn.js/venn.js"></script>
+<script src="js/d3.v2.min.js"></script>
+<script src="js/circle-intersection-vis.js"></script>
+<script src="js/circle-intersection.js"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/google-spreadsheet.js"></script>
+
+<script>
+function getSetIntersections() {
+    areas = d3.selectAll(".venn_area")[0].map(
+        function (element) { 
+            return { sets: element.id.split(",").map(function(value) { return parseInt(value);}), 
+                    size: parseFloat(element.value)};} );
+    return areas;
+}
+
+function getSets() {
+    var sets=[{"label": "Price"}, {"label":"Size"}, {"label": "Location"}], areas = [];
+    d3.selectAll(".venn_set")[0].map(
+        function(element, i) { sets[i].size = parseFloat(element.value); });
+    return sets;
+}
+
+function redraw() {
+    var sets = venn.venn(getSets(), getSetIntersections());
+    venn.updateD3Diagram(d3.select(".dynamic"), sets);
+}
+
+function readFromGdocs() {
+    $("#gdocs").html("Loading...");
+    localStorage.clear();
+    var spreadsheet_url = "https://docs.google.com/spreadsheet/pub?key=0AladYlRXW9qLdDRGdE1wTkxoSm5nYzZia1N1UUhWLXc&output=html";
+    var googleSpreadsheet = new GoogleSpreadsheet();
+    googleSpreadsheet.url(spreadsheet_url);
+    googleSpreadsheet.load(function(result) {
+        $("#gdocs").html("Redraw from Google Docs");
+        //console.debug(result)
+        if (result != null) {
+            $('#a').val(result.data.rows[0][0]);
+            $('#b').val(result.data.rows[0][1]);
+            $('#c').val(result.data.rows[0][2]);
+            $('.ab').val(result.data.rows[0][3]);
+            $('.ac').val(result.data.rows[0][4]);
+            $('.bc').val(result.data.rows[0][5]);
+            $('.abc').val(result.data.rows[0][6]);
+            redraw();
+        }
+        
+    });
+}
+
+var w = Math.min(450, document.documentElement.clientWidth-30), h = 2*w/3;
+
+// draw the initial set
+var sets = venn.venn(getSets(), getSetIntersections());
+venn.drawD3Diagram(d3.select(".dynamic"), sets, w, h);
+
+// redraw the sets on any change in input
+d3.selectAll("input").on("change", function() {
+    redraw();
+});
+
+// read from gdocs
+//readFromGdocs();
+
+// 2nd experiment
+createCircleIntersectionVis(d3.select(".exact"),
+        d3.select(".exact-output"),
+        d3.select(".exact-control"),
+        {circleCount:  3,
+            variant : 'exact'});
+            
+            
+$('#gdocs').click(function() {
+    readFromGdocs();
+})
+
+</script>
+
+</html>
+
